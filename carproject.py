@@ -22,7 +22,7 @@ class Xodim:
         holati = f"Sotuv: {self.sotuvlar_soni} ta"
         if self.faol_mijoz:
             holati += f" (Band: {self.faol_mijoz.ism})"
-        return f"👤 {self.ism} ({self.lavozim}) | {holati}"
+        return f"{self.ism} ({self.lavozim}) | {holati}"
 
 
 class Mijoz:
@@ -45,7 +45,6 @@ class Avtosalon:
         return " ".join(arg.strip().upper() for arg in args)
 
     def avto_qoshish(self, avto, silent=False):
-        """silent=True bo'lsa, xabar chiqarmaydi."""
         key = self._kalit_olish(avto.marka, avto.model)
         if key in self.inventar:
             self.inventar[key].soni += avto.soni
@@ -68,12 +67,12 @@ class Avtosalon:
     def xodim_qoshish(self, xodim):
         key = self._kalit_olish(xodim.ism)
         self.xodimlar[key] = xodim
-        print(f"Xodim {xodim.ism} qo'shildi.")  # Menyuda ishlatilganda xabar berish kerak
+        print(f"Xodim {xodim.ism} qo'shildi.")
 
     def mijoz_qoshish(self, mijoz):
         key = self._kalit_olish(mijoz.ism)
         self.mijozlar[key] = mijoz
-        print(f"Mijoz {mijoz.ism} ro'yxatga olindi.")  # Menyuda ishlatilganda xabar berish kerak
+        print(f"Mijoz {mijoz.ism} ro'yxatga olindi.")
 
     def royxatni_korish(self, tur):
         royxat = self.xodimlar if tur == 'xodim' else self.mijozlar
@@ -83,12 +82,11 @@ class Avtosalon:
             print(f"ℹ️ {sarlavha} bo'sh.")
             return
 
-        print(f"\n--- 👥 {sarlavha} ---")
+        print(f"\n--- {sarlavha} ---")
         for key in sorted(royxat.keys()):
             print(f"* {royxat[key]}")
         print("----------------------------")
 
-    # --- Sotuv funksiyalari ---
     def mijozni_xodim_bilan_taminlash(self, mijoz_ismi, xodim_ismi):
         m_key = self._kalit_olish(mijoz_ismi)
         x_key = self._kalit_olish(xodim_ismi)
@@ -125,7 +123,7 @@ class Avtosalon:
 
         avto.soni -= 1
         xodim.sotuvlar_soni += 1
-        xodim.faol_mijoz = None  # Ish tugadi
+        xodim.faol_mijoz = None
 
         print("\nSOTUV AMALGA OSHDI!")
         print(f"Sotildi: {avto.marka} {avto.model}")
@@ -172,7 +170,7 @@ class Admin:
             if narx <= 0 or soni <= 0:
                 raise ValueError("Narx va soni musbat bo'lishi kerak.")
             yangi_avto = Avto(marka, model, narx, soni)
-            # Menyu orqali qo'shishda xabar chiqishi kerak
+
             self.avtosalon.avto_qoshish(yangi_avto, silent=False)
         except ValueError:
             print("Xato: Narx yoki soni noto'g'ri kiritildi.")
