@@ -79,7 +79,7 @@ class Avtosalon:
         sarlavha = "XODIMLAR ROYXATI" if tur == 'xodim' else "MIJOZLAR ROYXATI"
 
         if not royxat:
-            print(f"ℹ{sarlavha} bo'sh.")
+            print(f"{sarlavha} bo'sh.")
             return
 
         print(f"\n--- {sarlavha} ---")
