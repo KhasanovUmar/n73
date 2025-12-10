@@ -4,7 +4,7 @@ import os
 import platform
 from reportlab.pdfgen import canvas
 
-# ======== USER CLASS ========
+
 class User:
     def __init__(self, name, pas, card, bal, role="user"):
         self.name = name
@@ -12,7 +12,7 @@ class User:
         self.card = card
         self.bal = bal
         self.role = role
-        self.savat = []  # list of Tovar objects
+        self.savat = []
         self.tarix = []
 
     def add_savat(self, t, kg):
@@ -36,7 +36,7 @@ class User:
             print("Balans yetmaydi!")
             return False
 
-        # savat nusxasi (chek uchun)
+
         old_savat = [Tovar(i.tit, i.price, i.kg) for i in self.savat]
 
         self.bal -= jami
@@ -44,7 +44,6 @@ class User:
         for i in self.savat:
             self.tarix.append(f"{i.tit} {i.kg}kg – {i.price*i.kg} so'm")
 
-        # PDF chek yaratish va avtomatik ochish
         fayl = qogoz_chek(self.name,
                           [{"nom":i.tit,"miqdor":i.kg,"narx":i.price} for i in old_savat],
                           self.card)
@@ -53,14 +52,14 @@ class User:
         print("Sotib olindi va chek tayyor!")
         return True
 
-# ======== TOVAR CLASS ========
+
 class Tovar:
     def __init__(self, tit, price, kg=0):
         self.tit = tit
         self.price = price
         self.kg = kg
 
-# ======== MARKET CLASS ========
+
 class Market:
     def __init__(self):
         self.users = []
@@ -69,7 +68,6 @@ class Market:
         self.load_def()
 
     def load_def(self):
-        # default admin va foydalanuvchilar
         self.users.append(User("admin", "1234", "0000000000000000", 0, "admin"))
         self.users.append(User("ali", "1111", "1111222233334444", 500000))
         self.users.append(User("vali", "2222", "5555666677778888", 300000))
@@ -118,7 +116,7 @@ class Market:
                 print("O'chirildi")
                 return
 
-# ======== PDF CHEK FUNKSIYA ========
+
 def qogoz_chek(user_name, savat, karta):
     folder = "cheklar"
     if not os.path.exists(folder):
@@ -154,7 +152,7 @@ def qogoz_chek(user_name, savat, karta):
 
     print(f">>> Chek tayyor: {fayl}")
 
-    # avtomatik ochish
+
     try:
         if platform.system() == "Windows":
             os.startfile(fayl)
@@ -167,7 +165,7 @@ def qogoz_chek(user_name, savat, karta):
 
     return fayl
 
-# ======== USER MENU ========
+
 def user_menu(u, m):
     while True:
         print("\n1) Mahsulotlar  2) Savat  3) Balans  4) Tarix  5) Karta almashtirish  0) Chiqish")
@@ -213,7 +211,7 @@ def user_menu(u, m):
         elif s=="0":
             break
 
-# ======== ADMIN MENU ========
+
 def admin_menu(u, m):
     while True:
         print("\n1) Tovar qo'sh  2) Tahrir  3) O'chirish  4) Foydalanuvchilar tarixi  0) Chiqish")
@@ -232,7 +230,7 @@ def admin_menu(u, m):
         elif s=="0":
             break
 
-# ======== ASOSIY LOOP ========
+
 m = Market()
 while True:
     print("\n1) Login  2) Ro'yxatdan o'tish  0) Chiqish")
